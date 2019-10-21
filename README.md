@@ -4,7 +4,7 @@ Repository to help getting started with MongoDB Node.JS driver connecting to Mon
 
 ## Information
 
-This Quickstart project uses [MongoDB Node.JS driver](https://mongodb.github.io/node-mongodb-native/3.3/) version 3.3 by default. Although you can change the driver version, the provided code example was only tested against the default version of MongoDB driver. There is no guarantee that the code sample will work for all possible versions of the driver.
+This Quickstart project uses [MongoDB Node.JS driver](https://mongodb.github.io/node-mongodb-native/) version 3.3 by default. Although you can change the driver version, the provided code example was only tested against the default version of MongoDB driver. There is no guarantee that the code sample will work for all possible versions of the driver.
 
 ## Pre-requisites 
 
