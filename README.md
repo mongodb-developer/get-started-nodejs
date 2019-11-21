@@ -1,10 +1,10 @@
-# Quickstart Node.JS
+# Get-Started Node.JS
 
 Repository to help getting started with MongoDB Node.JS driver connecting to MongoDB Atlas.
 
 ## Information
 
-This Quickstart project uses [MongoDB Node.JS driver](https://mongodb.github.io/node-mongodb-native/) version 3.3 by default. Although you can change the driver version, the provided code example was only tested against the default version of MongoDB driver. There is no guarantee that the code sample will work for all possible versions of the driver.
+This Get-Started project uses [MongoDB Node.JS driver](https://mongodb.github.io/node-mongodb-native/) version 3.3 by default. Although you can change the driver version, the provided code example was only tested against the default version of MongoDB driver. There is no guarantee that the code sample will work for all possible versions of the driver.
 
 ## Pre-requisites 
 
@@ -41,7 +41,7 @@ In order to execute the code example, you need to specify `MONGODB_URI` environm
 
 1. Run the code example by following below steps:
    * `cd ~/nodejs`
-   * `nodejs quickstart.js`
+   * `nodejs getstarted.js`
 
 ### Change driver version from within the Docker environment
 
@@ -66,6 +66,6 @@ export MONGODB_URI="mongodb+srv://usr:pwd@new.mongodb.net/dbname?retryWrites=tru
 
 ## About 
 
-This project is part of the MongoDB Quickstart code examples. Please see [quickstart-readme](https://github.com/mongodb-developer/quickstart-readme) for more information. 
+This project is part of the MongoDB Get-Started code examples. Please see [get-started-readme](https://github.com/mongodb-developer/get-started-readme) for more information. 
 
 

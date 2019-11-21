@@ -5,7 +5,7 @@ const assert = require('assert');
 const url = process.env.MONGODB_URI;
 
 // Database Name
-const dbName = 'quickstart';
+const dbName = 'getstarted';
 const collName = 'nodejs';
 // Use connect method to connect to the Server
 MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, client) {

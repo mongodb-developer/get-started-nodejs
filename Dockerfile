@@ -28,7 +28,7 @@ ENV MONGODB_URI=${MONGODB_URI}
 
 
 RUN mkdir ${HOME}/nodejs
-COPY ./nodejs/quickstart.js ./nodejs/package.json ${HOME}/nodejs/
+COPY ./nodejs/getstarted.js ./nodejs/package.json ${HOME}/nodejs/
 
 RUN chown -R ubuntu ${HOME}/nodejs && chmod -R 750 ${HOME}/nodejs
 
