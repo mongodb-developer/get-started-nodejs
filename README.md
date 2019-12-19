@@ -4,7 +4,7 @@ Repository to help getting started with MongoDB Node.JS driver connecting to Mon
 
 ## Information
 
-This Get-Started project uses [MongoDB Node.JS driver](https://mongodb.github.io/node-mongodb-native/) version 3.3 by default. Although you can change the driver version, the provided code example was only tested against the default version of MongoDB driver. There is no guarantee that the code sample will work for all possible versions of the driver.
+This Get-Started project uses [MongoDB Node.JS driver](https://mongodb.github.io/node-mongodb-native/) version 3.4 by default. Although you can change the driver version, the provided code example was only tested against the default version of MongoDB driver. There is no guarantee that the code sample will work for all possible versions of the driver.
 
 ## Pre-requisites 
 
@@ -25,7 +25,7 @@ In order to execute the code example, you need to specify `MONGODB_URI` environm
       ```
    * To use a different driver version and specify `MONGODB_URI`. For example:
       ```
-      docker build . -t start-nodejs --build-arg DRIVER_VERSION=3.1 --build-arg MONGODB_URI="mongodb+srv://usr:pwd@example.mongodb.net/dbname?retryWrites=true"
+      docker build . -t start-nodejs --build-arg DRIVER_VERSION=3.3 --build-arg MONGODB_URI="mongodb+srv://usr:pwd@example.mongodb.net/dbname?retryWrites=true"
       ```
    This will build a docker image with a tag name `start-nodejs`. 
    As a result of the build, the example code is compiled for the specified driver version and ready to be executed.
@@ -61,7 +61,7 @@ export MONGODB_URI="mongodb+srv://usr:pwd@new.mongodb.net/dbname?retryWrites=tru
 ## Tutorials
 
 * [Quickstart Node.JS and MongoDB: How to Connect](https://www.mongodb.com/blog/post/quick-start-nodejs-mongodb--how-to-get-connected-to-your-database)
-* [MongoDB Node.JS driver: Getting Started](https://mongodb.github.io/node-mongodb-native/3.3/)
+* [MongoDB Node.JS driver: Getting Started](https://mongodb.github.io/node-mongodb-native/3.4/)
 
 
 ## About 

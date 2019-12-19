@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-ARG DRIVER_VERSION=3.3.0
+ARG DRIVER_VERSION=3.4.0
 ARG MONGODB_URI
 
 RUN apt-get update && apt-get install -y sudo \
