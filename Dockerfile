@@ -1,6 +1,7 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
-ARG DRIVER_VERSION=3.3.0
+ARG DEBIAN_FRONTEND=noninteractive
+ARG DRIVER_VERSION=3.6.2
 ARG MONGODB_URI
 
 RUN apt-get update && apt-get install -y sudo \
@@ -33,7 +34,7 @@ COPY ./nodejs/getstarted.js ./nodejs/package.json ${HOME}/nodejs/
 RUN chown -R ubuntu ${HOME}/nodejs && chmod -R 750 ${HOME}/nodejs
 
 USER ubuntu
-WORKDIR ${HOME}
+WORKDIR ${HOME}/nodejs
 RUN npm install mongodb@${DRIVER_VERSION} --save
 
 CMD ["/bin/bash"]  

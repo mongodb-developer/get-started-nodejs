@@ -1,89 +1,111 @@
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
+const { runInContext } = require('vm');
 
 // Connection URL
-const url = process.env.MONGODB_URI;
+const uri = process.env.MONGODB_URI;
+const client = new MongoClient(uri, {useUnifiedTopology:true});
 
 // Database Name
 const dbName = 'getstarted';
 const collName = 'nodejs';
-// Use connect method to connect to the Server
-MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, client) {
-  assert.equal(null, err);
-  console.log("Connected correctly to server");
 
-  const db = client.db(dbName);
-  const collection = db.collection(collName);
-  // Drop
-  db.collection('nodejs').drop({}, function(err, r){
-    console.log("Dropped 'nodejs' collection");
-  });
+async function run() {
+  try {
+    await client.connect(); 
+    const db = client.db(dbName);
+    const collection = db.collection(collName);
+    console.log("Connected correctly to server");
+    try {
+      await collection.drop({}); 
+      console.log(`Dropped ${collName} collection`); 
+    } catch (err){
+      console.error(`Encountered an error: ${err}`);
+    }
+    
+    // Insert a single document
+    let document = {"name": "MongoDB", 
+                    "modified": new Date(), 
+                    "count": 1, 
+                    "info": {"x": 203, "y": 102}
+                  };
+    try {
+      let result = await collection.insertOne(document); 
+      console.log(`Inserted ${result.insertedCount} document`); 
+    } catch (err){
+      console.error(`Encountered an error: ${err}`);
+    }
 
-  let document = {"name": "MongoDB", 
-                  "modified": new Date(), 
-                  "count": 1, 
-                  "info": {"x": 203, "y": 102}
-                 };
-  
-  // Insert a single document
-  collection.insertOne(document, function(err, r) {
-    assert.equal(null, err);
-    assert.equal(1, r.insertedCount);
-    console.log("Inserted: " + r.insertedCount);
-  });
+    // Insert multiple documents
+    try {
+      let result = await collection.insertMany([{"info":{"x":2}}, {"info":{"x":3}}]); 
+      console.log(`Inserted ${result.insertedCount} documents`); 
+    } catch (err){
+      console.error(`Encountered an error: ${err}`);
+    }
 
-  // Insert multiple documents
-  collection.insertMany([{"info":{"x":2}}, 
-                         {"info":{"x":3}}], function(err, r) {
-    assert.equal(null, err);
-    assert.equal(2, r.insertedCount);
-    console.log("Inserted: " + r.insertedCount);
-  });
+    // Print out inserted docs (findOne)
+    try {
+      let result = await collection.findOne({}); 
+      console.log(result); 
+    } catch (err){
+      console.error(`Encountered an error: ${err}`);
+    }
 
-  // Print out inserted docs (findOne)
-  collection.findOne({}, function(err, result) {
-    if (err) throw err;
-    console.log(result);
-  });
+    // Find all
+    try {
+      let result = await collection.find({}).toArray(); 
+      console.log(result); 
+    } catch (err){
+      console.error(`Encountered an error: ${err}`);
+    }
 
-  // Find all
-  collection.find({}).toArray(function(err, result) {
-    if (err) throw err;
-    console.log(result);
-  });
- 
-  // Sorting
-  collection.find({}).sort({"info.x":1}).toArray(function(err, result) {
-    if (err) throw err;
-    console.log(result);
-  });
+    // Sorting
+    try {
+      let options = {"sort": {"info.x":1}};
+      let result = await collection.find({}, options).toArray(); 
+      console.log(result); 
+    } catch (err){
+      console.error(`Encountered an error: ${err}`);
+    }
 
-  // Projection
-  collection.find({}).project({'_id':0}).toArray(function(err, result) {
-    if (err) throw err;
-    console.log(result);
-  });
+    // Projection
+    try {
+      let options = {"projection":{"_id":0, "info":1}}
+      let result = await collection.find({}, options).toArray(); 
+      console.log(result); 
+    } catch (err){
+      console.error(`Encountered an error: ${err}`);
+    }
 
-  collection.updateOne({ "info.x" : 2 }, { "$set": { "info.y" : 3 } }, function(err, result) {
-    assert.equal(err, null);
-    assert.equal(1, result.result.n);
-    console.log("Updated the document with the info.x field equal to 2");
-  });  
+    // Update 
+    try {
+      let result = await collection.updateOne({ "info.x" : 2 }, { "$set": { "info.y" : 3 } }); 
+      console.log(`Modified ${result.nModified} document`); 
+    } catch (err){
+      console.error(`Encountered an error: ${err}`);
+    }
 
-  // Remove a document
-  collection.deleteOne({ "info.x" : 3 }, function(err, result) {
-    assert.equal(err, null);
-    assert.equal(1, result.result.n);
-    console.log("Removed the document with the info.x field equal to 3");
-  });    
+    // Remove a document 
+    try {
+      let result = await collection.deleteOne({ "info.x" : 3 }); 
+      console.log(`Removed a document`); 
+    } catch (err){
+      console.error(`Encountered an error: ${err}`);
+    }
 
-  // Aggregation
-  collection.aggregate([{'$group': {'_id': null, 'total': {'$sum': '$info.x'}}}],
-    function(err, cursor) {
-       assert.equal(err, null);
-       cursor.toArray(function(err, doc){
-           console.log(doc); 
-       });
-    });
-  client.close();
-});
+    // Aggregation 
+    try {
+      let cursor = collection.aggregate([{'$group': {'_id': null, 'total': {'$sum': '$info.x'}}}]); 
+      await cursor.forEach(doc =>{
+        console.log(doc);
+      });
+    } catch (err){
+      console.error(`Encountered an error: ${err}`);
+    }
+
+  } finally {
+    await client.close(); 
+  }
+}
+run().catch(console.dir);
