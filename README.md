@@ -16,7 +16,27 @@ Have Docker running on your machine. You can download and install from: https://
 
 In order to execute the code example, you need to specify `MONGODB_URI` environment variable to connect to a MongoDB cluster. If you don't have any you can create one by signing up [MongoDB Atlas Free-tier M0](https://docs.atlas.mongodb.com/getting-started/). 
 
-## Build Steps 
+##  Execution Steps 
+
+1. Build Docker image with a tag name. Within the top level directory execute: 
+   ```
+   docker build . -t start-nodejs
+   ```
+   This will build a docker image with a tag name `start-nodejs`. 
+
+2. Execute the helper shell script followed by the MongoDB URI that you would like to connect to. 
+      ```
+      ./get-started.sh "mongodb+srv://usr:pwd@example.mongodb.net/dbname?retryWrites=true"
+      ```
+
+   To use a different driver version, specify the driver version after the MongoDB URI. For example:
+      ```
+      ./get-started.sh "mongodb+srv://usr:pwd@example.mongodb.net/dbname?retryWrites=true" 3.6.3
+      ```
+
+## Alternative Execution Steps (without helper)
+
+#### Build Steps 
 
 1. Build Docker image with a tag name. Within this directory execute: 
    * To use the default driver version and specify `MONGODB_URI`:
@@ -32,18 +52,17 @@ In order to execute the code example, you need to specify `MONGODB_URI` environm
 
 2. Run the Docker image by executing:
    ```
-   docker run --tty --interactive --hostname nodejs start-nodejs
+   docker run --tty --interactive --hostname nodejs start-nodejs bash
    ```
 
    The command above will run a `start-nodejs` tagged Docker image. Sets the hostname as `nodejs`. 
 
-## Execution Steps
+#### Execution
 
 1. Run the code example by following below steps:
-   * `cd ~/nodejs`
    * `nodejs getstarted.js`
 
-### Change driver version from within the Docker environment
+#### Change driver version from within the Docker environment
 
 You can change the driver version with `npm`. For example to change the driver version to v3.2.1 use the following: 
 
@@ -67,5 +86,3 @@ export MONGODB_URI="mongodb+srv://usr:pwd@new.mongodb.net/dbname?retryWrites=tru
 ## About 
 
 This project is part of the MongoDB Get-Started code examples. Please see [get-started-readme](https://github.com/mongodb-developer/get-started-readme) for more information. 
-
-

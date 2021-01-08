@@ -1,14 +1,14 @@
 {
   "name": "start-nodejs",
   "version": "1.0.0",
-  "description": "",
-  "main": "quickstart.js",
+  "description": "Get started with MongoDB Node.JS",
+  "main": "getstarted.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "",
+  "private": true,
   "dependencies": {
-    "mongodb": "^3.3.1"
+    "mongodb": "^3.6.3"
   }
 }
