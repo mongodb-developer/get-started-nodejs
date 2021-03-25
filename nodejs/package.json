@@ -9,6 +9,6 @@
   "author": "",
   "private": true,
   "dependencies": {
-    "mongodb": "^3.6.3"
+    "mongodb": "^3.6.5"
   }
 }
