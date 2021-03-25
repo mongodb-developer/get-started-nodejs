@@ -3,13 +3,20 @@ MONGODB_URI=${1}
 if [ -z ${MONGODB_URI} ]
 then
     read -p "MONGODB URI (Required): " MONGODB_URI
-fi 
+fi
 
-DRIVER_VERSION=${2:-3.6.3}
-echo "Executing ... "
+COMMAND="npm config set cache /workspace/.npm --global;"
+if [ -z ${2} ]
+then
+    COMMAND=${COMMAND}
+else
+    COMMAND=${COMMAND}"npm install mongodb@${2} --save;"
+fi
+COMMAND=${COMMAND}"node ./getstarted.js"
+
+HOME=/home/gsuser
+echo "Executing ... "${COMMAND}
 docker run --rm -e MONGODB_URI=${MONGODB_URI} \
-    -v "$(pwd)":/workspace \
-    -w /workspace/nodejs start-nodejs \
-    "npm config set cache /workspace/nodejs/.npm; \
-    npm install mongodb@${DRIVER_VERSION} --save; \
-    nodejs ./getstarted.js"
+    -v "$(pwd)":${HOME} \
+    -w ${HOME}/nodejs ghcr.io/mongodb-developer/get-started-nodejs \
+    "${COMMAND}"
