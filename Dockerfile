@@ -1,43 +1,21 @@
-FROM ubuntu:20.04
+FROM alpine:3.13
 
-ARG DEBIAN_FRONTEND=noninteractive
-ARG DRIVER_VERSION=3.6.3
-ARG MONGODB_URI
+LABEL org.opencontainers.image.source=https://github.com/mongodb-developer/get-started-nodejs
 
-RUN apt-get update && apt-get install -y sudo \
-    vim \
-    nano \
-    git \
-    nodejs \
-    npm \
-    build-essential && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+ENV DRIVER_VERSION 3.6.5
+ENV HOME /home/gsuser
+ENV SPACE /workspace
 
-RUN export uid=1000 gid=1000 && \
-    mkdir -p /home/ubuntu && mkdir /workspace && \
-    echo "ubuntu:x:${uid}:${gid}:Developer,,,:/home/ubuntu:/bin/bash" >> /etc/passwd && \
-    echo "ubuntu:x:${uid}:" >> /etc/group && \
-    echo "ubuntu ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ubuntu && \
-    chmod 0440 /etc/sudoers.d/ubuntu && \
-    chown ${uid}:${gid} -R /home/ubuntu
+RUN apk add --no-cache nodejs npm
+RUN addgroup -S gsgroup && adduser -S gsuser -G gsgroup && \
+    chown -R gsuser ${HOME} && chmod -R 750 ${HOME} && \
+    mkdir ${SPACE} && chown -R gsuser ${SPACE} && chmod -R 750 ${SPACE}
 
-ENV HOME /home/ubuntu
-ENV WORKSPACE /workspace
-ENV DRIVER_VERSION ${DRIVER_VERSION}
-ENV MONGODB_URI ${MONGODB_URI}
+COPY ./nodejs/package.json ${SPACE}/
+RUN cd ${SPACE} && \
+    npm config set cache ${SPACE}/.npm --global && \
+    npm install mongodb@${DRIVER_VERSION} --save
 
-RUN mkdir ${HOME}/nodejs
-COPY ./nodejs/getstarted.js ./nodejs/package.json ${HOME}/nodejs/
+USER gsuser
 
-RUN chown -R ubuntu ${HOME}/ && chmod -R 750 ${HOME}/nodejs
-
-WORKDIR ${HOME}/nodejs
-
-RUN npm config set cache ${WORKSPACE}/nodejs/.npm --global && npm install mongodb@${DRIVER_VERSION} --save
-
-USER ubuntu
-
-WORKDIR ${WORKSPACE}/nodejs
-
-ENTRYPOINT ["/bin/bash", "-c"]  
+ENTRYPOINT ["/bin/sh", "-c"]
