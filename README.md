@@ -18,63 +18,14 @@ In order to execute the code example, you need to specify `MONGODB_URI` environm
 
 ##  Execution Steps 
 
-1. Build Docker image with a tag name. Within the top level directory execute: 
-   ```
-   docker build . -t start-nodejs
-   ```
-   This will build a docker image with a tag name `start-nodejs`. 
-
-2. Execute the helper shell script followed by the MongoDB URI that you would like to connect to. 
-      ```
-      ./get-started.sh "mongodb+srv://usr:pwd@example.mongodb.net/dbname?retryWrites=true"
-      ```
-
-   To use a different driver version, specify the driver version after the MongoDB URI. For example:
-      ```
-      ./get-started.sh "mongodb+srv://usr:pwd@example.mongodb.net/dbname?retryWrites=true" 3.6.3
-      ```
-
-## Alternative Execution Steps (without helper)
-
-#### Build Steps 
-
-1. Build Docker image with a tag name. Within this directory execute: 
-   * To use the default driver version and specify `MONGODB_URI`:
-      ```
-      docker build . -t start-nodejs --build-arg MONGODB_URI="mongodb+srv://usr:pwd@example.mongodb.net/dbname?retryWrites=true"
-      ```
-   * To use a different driver version and specify `MONGODB_URI`. For example:
-      ```
-      docker build . -t start-nodejs --build-arg DRIVER_VERSION=3.3 --build-arg MONGODB_URI="mongodb+srv://usr:pwd@example.mongodb.net/dbname?retryWrites=true"
-      ```
-   This will build a docker image with a tag name `start-nodejs`. 
-   As a result of the build, the example code is compiled for the specified driver version and ready to be executed.
-
-2. Run the Docker image by executing:
-   ```
-   docker run --tty --interactive --hostname nodejs start-nodejs bash
-   ```
-
-   The command above will run a `start-nodejs` tagged Docker image. Sets the hostname as `nodejs`. 
-
-#### Execution
-
-1. Run the code example by following below steps:
-   * `nodejs getstarted.js`
-
-#### Change driver version from within the Docker environment
-
-You can change the driver version with `npm`. For example to change the driver version to v3.2.1 use the following: 
-
-```sh 
-cd ~/nodejs
-npm install mongodb@3.2.1 --save
+Execute the helper shell script followed by the MongoDB URI that you would like to connect to. 
+```
+./get-started.sh "mongodb+srv://usr:pwd@example.mongodb.net/dbname?retryWrites=true"
 ```
 
-From within the docker environment, you can also change the `MONGODB_URI` by changing the environment variable: 
-
-```sh
-export MONGODB_URI="mongodb+srv://usr:pwd@new.mongodb.net/dbname?retryWrites=true"
+To use a different driver version, specify the driver version after the MongoDB URI. For example:
+```
+./get-started.sh "mongodb+srv://usr:pwd@example.mongodb.net/dbname?retryWrites=true" 3.6.3
 ```
 
 ## Tutorials
