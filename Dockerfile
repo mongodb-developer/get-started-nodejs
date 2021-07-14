@@ -2,7 +2,7 @@ FROM alpine:3.13
 
 LABEL org.opencontainers.image.source=https://github.com/mongodb-developer/get-started-nodejs
 
-ENV DRIVER_VERSION 3.6.10
+ENV DRIVER_VERSION 4.0.0
 ENV HOME /home/gsuser
 ENV SPACE /workspace
 
